@@ -22,7 +22,7 @@ module.exports = {
                 bot.commands.delete(commandName)
                 const pull = require(`../${f}/${commandName}.js`)
                 bot.commands.set(commandName, pull)
-                message.channel.send(`Successfully reloaded ${commandName}.js!`)
+                return message.channel.send(`Successfully reloaded ${commandName}.js!`)
             } catch(e) {
                 return message.channel.send(`Could not reload: \`${args[0].toUpperCase()}\``)
             }
