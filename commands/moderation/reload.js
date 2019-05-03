@@ -18,7 +18,7 @@ module.exports = {
         let files = readdirSync(join(__dirname,'..',f));
         if(files.includes(commandName + '.js')) {
             try {
-                delete require.cache[require.resolve(`../${f}/${commandName}.js`)] // usage !reload <name>
+            delete require.cache[require.resolve(join(__dirname, '..',f,`${commandName}.js`))]
                 bot.commands.delete(commandName)
                 const pull = require(`../${f}/${commandName}.js`)
                 bot.commands.set(commandName, pull)
