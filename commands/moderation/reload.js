@@ -10,7 +10,7 @@ module.exports = {
     run: async (bot, message, args) => {
         const { readdirSync } = require('fs'); 
         const {join} = require('path'); 
-        if(message.author.id !== "youridhere") return message.channel.send("You're not the bot the owner!")
+        if(message.author.id !== "youridhere") return message.channel.send("You're not the bot owner!")
         if(!args[0]) return message.channel.send("Please provide a command to reload!")
         readdirSync(join(__dirname, '..')).forEach(f => {
         let files = readdirSync(join(__dirname,'..',f));
