@@ -28,5 +28,6 @@ module.exports = {
             }
         }
     });
+    message.channel.send(`That command doens't exist. Try again.`)
     }
 }
