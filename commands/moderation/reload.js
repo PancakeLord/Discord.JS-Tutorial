@@ -8,7 +8,6 @@ module.exports = {
         aliases: ["creload"]
     },
     run: async (bot, message, args) => {
-
         const { readdirSync } = require('fs'); 
         const {join} = require('path'); 
         if(message.author.id !== "youridhere") return message.channel.send("You're not the bot the owner!")
@@ -16,6 +15,7 @@ module.exports = {
         readdirSync(join(__dirname, '..')).forEach(f => {
         let files = readdirSync(join(__dirname,'..',f));
         const commandName = args[0].toLowerCase()
+        if(!bot.commands.get(commandName)) return message.channel.send('That command doesnt exist. Try again.')
         if(files.includes(commandName + '.js')) {
             try {
                 delete require.cache[require.resolve(`../${f}/${commandName}.js`)] // usage !reload <name>
@@ -28,6 +28,5 @@ module.exports = {
             }
         }
     });
-    message.channel.send(`That command doens't exist. Try again.`)
     }
 }
