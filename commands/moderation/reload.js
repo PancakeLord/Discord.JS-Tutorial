@@ -9,22 +9,24 @@ module.exports = {
     },
     run: async (bot, message, args) => {
 
-    if(message.author.id != "203104843479515136") return message.channel.send("You're the bot the owner!")
-
-    if(!args[0]) return message.channel.send("Please provide a command to reload!")
-
-    let commandName = args[0].toLowerCase()
-
-    try {
-        delete require.cache[require.resolve(`./${commandName}.js`)] // usage !reload <name>
-        bot.commands.delete(commandName)
-        const pull = require(`./${commandName}.js`)
-        bot.commands.set(commandName, pull)
-    } catch(e) {
-        return message.channel.send(`Could not reload: \`${args[0].toUpperCase()}\``)
-    }
-
-    message.channel.send(`The command \`${args[0].toUpperCase()}\` has been reloaded!`)
-
+        const { readdirSync } = require('fs'); 
+        const {join} = require('path'); 
+        if(message.author.id !== "youridhere") return message.channel.send("You're not the bot the owner!")
+        if(!args[0]) return message.channel.send("Please provide a command to reload!")
+        readdirSync(join(__dirname, '..')).forEach(f => {
+        let files = readdirSync(join(__dirname,'..',f));
+        const commandName = args[0].toLowerCase()
+        if(files.includes(commandName + '.js')) {
+            try {
+                delete require.cache[require.resolve(`../${f}/${commandName}.js`)] // usage !reload <name>
+                bot.commands.delete(commandName)
+                const pull = require(`../${f}/${commandName}.js`)
+                bot.commands.set(commandName, pull)
+                message.channel.send(`Successfully reloaded ${commandName}.js!`)
+            } catch(e) {
+                return message.channel.send(`Could not reload: \`${args[0].toUpperCase()}\``)
+            }
+        }
+    });
     }
 }
