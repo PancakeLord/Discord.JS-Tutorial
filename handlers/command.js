@@ -9,5 +9,6 @@ module.exports = (bot) => {
             if (pull.config.aliases) pull.config.aliases.forEach(a => bot.aliases.set(a, pull.config.name));
           };
         };
-        ["miscellaneous", "moderation", "owner"].forEach(x => load(x));
+        const commandsDir = readdirSync('./commands/')
+        commandsDir.forEach(x => load(x));
 };
